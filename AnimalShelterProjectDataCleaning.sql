@@ -17,9 +17,9 @@ FROM AnimalShelterProject..AnimalOutcomes
 
 --------------------------------------------------------------------------------------------------------------------------------
 
--- Standardize Date Format
+-- Date Formatting
 
--- Standardize DateTime Columns
+-- Standardizing DateTime Columns
 
 
 SELECT DateTime, CONVERT(datetime, DateTime)
@@ -45,7 +45,7 @@ UPDATE AnimalShelterProject..AnimalOutcomes
 SET DateTimeConverted = CONVERT(datetime, DateTime)
 
 
--- Standardize MonthYear Columns
+-- Standardizing MonthYear Columns
 
 
 SELECT MonthYear, CAST(MonthYear AS Date)
@@ -71,7 +71,7 @@ UPDATE AnimalShelterProject..AnimalOutcomes
 SET MonthYearConverted = CAST(MonthYear AS Date)
 
 
--- Standardize Date of Birth Column
+-- Standardizing Date of Birth Column
 
 
 SELECT "Date of Birth", CAST("Date of Birth" AS Date)
@@ -89,7 +89,7 @@ SET DOBConverted = CAST("Date of Birth" AS Date)
 
 -- Animals' Ages
 
---Add Column with Animal's Age in Years Upon Outcome
+-- Adding Column with Animal's Age in Years Upon Outcome
 
 
 SELECT MonthYearConverted, DOBConverted, DATEDIFF(year, DOBConverted, MonthYearConverted) AS AgeInYears
@@ -134,7 +134,8 @@ AND a."Name" = b."Name"
 SELECT * 
 FROM AnimalShelterProject..AnimalDOB
 
--- Create View and Temp Table to find age of animal upon intake
+
+-- Creating View and Temp Table to find Age of Animal Upon Intake
 
 
 USE AnimalShelterProject
@@ -187,7 +188,7 @@ AND a.Name = b.Name
 
 --------------------------------------------------------------------------------------------------------------------------------
 
--- Checking Distinct Categories Within Text Columns
+-- Checking Distinct Categories within Text Columns
 
 
 SELECT DISTINCT "Intake Type"
@@ -250,10 +251,10 @@ ORDER BY "Animal ID";
 WITH RowDuplicatesCTE AS
 (SELECT *
     , ROW_NUMBER() OVER (PARTITION BY "Animal ID"
-									 , "Name"
-									 , "DateTime"
-									 , "Found Location" 
-									 ORDER BY "Animal ID") AS row_num
+	    , "Name"
+		, "DateTime"
+		, "Found Location" 
+		ORDER BY "Animal ID") AS row_num
 FROM AnimalShelterProject..AnimalIntakes)
 
 DELETE FROM RowDuplicatesCTE
@@ -272,14 +273,14 @@ WITH OutcomesRowDuplicatesCTE AS (
 SELECT *
     , ROW_NUMBER() OVER (
     PARTITION BY "Animal ID"
-                , "Name"
-				, "DateTime"
-				, "Date of Birth"
-				, "Outcome Type"
-				, "Outcome Subtype"
-				ORDER BY 
-				    "Animal ID"
-					) AS row_num
+        , "Name"
+		, "DateTime"
+		, "Date of Birth"
+		, "Outcome Type"
+		, "Outcome Subtype"
+		ORDER BY 
+	        "Animal ID"
+			) AS row_num
 FROM AnimalShelterProject..AnimalOutcomes
 )
 
