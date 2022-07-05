@@ -112,27 +112,25 @@ SELECT DISTINCT "Animal ID", Name, DOBConverted
 FROM AnimalShelterProject..AnimalOutcomes
 )
 
-SELECT a."Animal ID"
+SELECT 
+    a."Animal ID"
     , a.Name
-	, a.DateTimeConverted
-	, a.MonthYearConverted
-	, b.DOBConverted
-	, DATEDIFF(year, b.DOBConverted, a.MonthYearConverted) AS AgeInYears
-	, a."Found Location"
-	, a."Intake Type"
-	, a."Intake Condition"
-	, a."Animal Type"
-	, a."Sex upon Intake"
-	, a."Age upon Intake"
-	, a.Breed
-	, a.Color
+    , a.DateTimeConverted
+    , a.MonthYearConverted
+    , b.DOBConverted
+    , DATEDIFF(year, b.DOBConverted, a.MonthYearConverted) AS AgeInYears
+    , a."Found Location"
+    , a."Intake Type"
+    , a."Intake Condition"
+    , a."Animal Type"
+    , a."Sex upon Intake"
+    , a."Age upon Intake"
+    , a.Breed
+    , a.Color
 FROM AnimalShelterProject..AnimalIntakes AS a
 LEFT JOIN DOBCTE AS b
-ON a."Animal ID" = b."Animal ID"
-AND a."Name" = b."Name"
-
-SELECT * 
-FROM AnimalShelterProject..AnimalDOB
+    ON a."Animal ID" = b."Animal ID"
+    AND a."Name" = b."Name"
 
 
 -- Creating View and Temp Table to find Age of Animal Upon Intake
@@ -166,24 +164,25 @@ AnimalId nvarchar(255)
 );
 
 INSERT INTO AnimalIntakesAge
-SELECT a."Animal ID"
+SELECT 
+    a."Animal ID"
     , a.Name
-	, a.DateTimeConverted
-	, a.MonthYearConverted
-	, b.DOBConverted
-	, DATEDIFF(year, b.DOBConverted, a.MonthYearConverted) 
-	, a."Found Location"
-	, a."Intake Type"
-	, a."Intake Condition"
-	, a."Animal Type"
-	, a."Sex upon Intake"
-	, a."Age upon Intake"
-	, a.Breed
-	, a.Color
+    , a.DateTimeConverted
+    , a.MonthYearConverted
+    , b.DOBConverted
+    , DATEDIFF(year, b.DOBConverted, a.MonthYearConverted) 
+    , a."Found Location"
+    , a."Intake Type"
+    , a."Intake Condition"
+    , a."Animal Type"
+    , a."Sex upon Intake"
+    , a."Age upon Intake"
+    , a.Breed
+    , a.Color
 FROM AnimalShelterProject..AnimalIntakes AS a
 LEFT JOIN AnimalShelterProject..AnimalDateOfBirth AS b
-ON a."Animal ID" = b."Animal ID"
-AND a.Name = b.Name
+    ON a."Animal ID" = b."Animal ID"
+    AND a.Name = b.Name
 
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -250,10 +249,12 @@ ORDER BY "Animal ID";
 
 WITH RowDuplicatesCTE AS
 (SELECT *
-    , ROW_NUMBER() OVER (PARTITION BY "Animal ID"
+    , ROW_NUMBER() OVER (
+        PARTITION BY 
+	    "Animal ID"
 	    , "Name"
-		, "DateTime"
-		, "Found Location" 
+	    , "DateTime"
+	    , "Found Location" 
 		ORDER BY "Animal ID") AS row_num
 FROM AnimalShelterProject..AnimalIntakes)
 
@@ -272,15 +273,15 @@ ORDER BY "Animal ID";
 WITH OutcomesRowDuplicatesCTE AS (
 SELECT *
     , ROW_NUMBER() OVER (
-    PARTITION BY "Animal ID"
-        , "Name"
-		, "DateTime"
-		, "Date of Birth"
-		, "Outcome Type"
-		, "Outcome Subtype"
-		ORDER BY 
-	        "Animal ID"
-			) AS row_num
+        PARTITION BY 
+	    "Animal ID"
+            , "Name"
+	    , "DateTime"
+	    , "Date of Birth"
+	    , "Outcome Type"
+	    , "Outcome Subtype"
+		ORDER BY "Animal ID"
+		) AS row_num
 FROM AnimalShelterProject..AnimalOutcomes
 )
 
