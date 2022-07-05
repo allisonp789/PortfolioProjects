@@ -42,13 +42,13 @@ ORDER BY ParcelID
 
 SELECT a.ParcelID
     , a.PropertyAddress
-	, b.ParcelID
-	, b.PropertyAddress
-	, ISNULL(a.PropertyAddress, b.PropertyAddress)
+    , b.ParcelID
+    , b.PropertyAddress
+    , ISNULL(a.PropertyAddress, b.PropertyAddress)
 FROM PortfolioProject..NashvilleHousing AS a
 JOIN PortfolioProject..NashvilleHousing AS b
-	ON a.ParcelID = b.ParcelID
-	AND a.[UniqueID ] <> b.[UniqueID ]
+    ON a.ParcelID = b.ParcelID
+    AND a.[UniqueID ] <> b.[UniqueID ]
 WHERE a.PropertyAddress IS NULL
 
 
@@ -56,8 +56,8 @@ UPDATE a
 SET PropertyAddress = ISNULL(a.PropertyAddress, b.PropertyAddress)
 FROM PortfolioProject..NashvilleHousing AS a
 JOIN PortfolioProject..NashvilleHousing AS b
-	ON a.ParcelID = b.ParcelID
-	AND a.[UniqueID ] <> b.[UniqueID ]
+    ON a.ParcelID = b.ParcelID
+    AND a.[UniqueID ] <> b.[UniqueID ]
 WHERE a.PropertyAddress IS NULL
 
 
@@ -99,9 +99,9 @@ FROM PortfolioProject..NashvilleHousing
 
 
 SELECT 
-	PARSENAME(REPLACE(OwnerAddress, ',' , '.'), 3)
-	, PARSENAME(REPLACE(OwnerAddress, ',' , '.'), 2)
-	, PARSENAME(REPLACE(OwnerAddress, ',' , '.'), 1)
+    PARSENAME(REPLACE(OwnerAddress, ',' , '.'), 3)
+    , PARSENAME(REPLACE(OwnerAddress, ',' , '.'), 2)
+    , PARSENAME(REPLACE(OwnerAddress, ',' , '.'), 1)
 FROM PortfolioProject..NashvilleHousing
 
 
@@ -138,18 +138,19 @@ ORDER BY 2
 
 
 SELECT SoldAsVacant
-, CASE WHEN SoldAsVacant = 'Y' THEN 'Yes'
-	   WHEN SoldAsVacant = 'N' THEN 'No'
-	   ELSE SoldAsVacant
-	   END
+    , CASE WHEN SoldAsVacant = 'Y' THEN 'Yes'
+    WHEN SoldAsVacant = 'N' THEN 'No'
+    ELSE SoldAsVacant
+    END
 FROM PortfolioProject..NashvilleHousing
 
 
 UPDATE NashvilleHousing
-SET SoldAsVacant = CASE WHEN SoldAsVacant = 'Y' THEN 'Yes'
-						WHEN SoldAsVacant = 'N' THEN 'No'
-						ELSE SoldAsVacant
-						END
+SET SoldAsVacant = 
+    CASE WHEN SoldAsVacant = 'Y' THEN 'Yes'
+    WHEN SoldAsVacant = 'N' THEN 'No'
+    ELSE SoldAsVacant
+    END
 FROM PortfolioProject..NashvilleHousing
 
 
@@ -161,23 +162,20 @@ FROM PortfolioProject..NashvilleHousing
 WITH RowNumCTE AS 
 (
 SELECT *
-	, ROW_NUMBER() OVER (
+    , ROW_NUMBER() OVER (
 	PARTITION BY ParcelID
-				 , PropertyAddress
-				 , SalePrice
-				 , SaleDate
-				 , LegalReference
-				 ORDER BY 
-					UniqueID
-					) AS row_num
+        , PropertyAddress
+	, SalePrice
+	, SaleDate
+	, LegalReference
+	    ORDER BY UniqueID
+	    ) AS row_num
 FROM PortfolioProject..NashvilleHousing
 )
-
 
 SELECT *
 FROM RowNumCTE
 WHERE row_num > 1
-
 
 DELETE
 FROM RowNumCTE
