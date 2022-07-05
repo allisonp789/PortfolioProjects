@@ -54,7 +54,7 @@ ORDER BY 1, 2
 
 SELECT location
     , population, MAX(total_cases) AS HighestInfectionCount
-	, MAX((total_cases/population))*100 AS PercentPopulationInfected
+    , MAX((total_cases/population))*100 AS PercentPopulationInfected
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NOT NULL
 GROUP BY location, population
@@ -70,7 +70,7 @@ GO
 CREATE VIEW PercentInfected AS
 SELECT location
     , population, MAX(total_cases) AS HighestInfectionCount
-	, MAX((total_cases/population))*100 AS PercentPopulationInfected
+    , MAX((total_cases/population))*100 AS PercentPopulationInfected
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NOT NULL
 GROUP BY location, population
@@ -174,13 +174,13 @@ SELECT location
     , population, MAX(total_cases)/population * 100 AS PercentInfected
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NULL 
-	AND location <> 'World'
-	AND location <> 'High Income' 
-	AND location <> 'Upper middle income'
-	AND location <> 'Lower middle income'
-	AND location <> 'European Union'
-	AND location <> 'Low income'
-	AND location <> 'International'
+    AND location <> 'World'
+    AND location <> 'High Income' 
+    AND location <> 'Upper middle income'
+    AND location <> 'Lower middle income'
+    AND location <> 'European Union'
+    AND location <> 'Low income'
+    AND location <> 'International'
 GROUP BY location, population
 ORDER BY PercentInfected DESC
 
@@ -194,13 +194,13 @@ SELECT location
     , MAX(CONVERT(BIGINT, total_deaths))/MAX(total_cases) * 100 AS PercentDeathPerInfected
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NULL 
-	AND location <> 'World'
-	AND location <> 'High Income' 
-	AND location <> 'Upper middle income'
-	AND location <> 'Lower middle income'
-	AND location <> 'European Union'
-	AND location <> 'Low income'
-	AND location <> 'International'
+    AND location <> 'World'
+    AND location <> 'High Income' 
+    AND location <> 'Upper middle income'
+    AND location <> 'Lower middle income'
+    AND location <> 'European Union'
+    AND location <> 'Low income'
+    AND location <> 'International'
 GROUP BY location
 ORDER BY PercentDeathPerInfected DESC
 
@@ -214,13 +214,13 @@ SELECT location
     , MAX(CAST(total_deaths AS bigint))/population * 100 AS PercentPopulationDeath
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NULL 
-	AND location <> 'World'
-	AND location <> 'High Income' 
-	AND location <> 'Upper middle income'
-	AND location <> 'Lower middle income'
-	AND location <> 'European Union'
-	AND location <> 'Low income'
-	AND location <> 'International'
+    AND location <> 'World'
+    AND location <> 'High Income' 
+    AND location <> 'Upper middle income'
+    AND location <> 'Lower middle income'
+    AND location <> 'European Union'
+    AND location <> 'Low income'
+    AND location <> 'International'
 GROUP BY location, population
 ORDER BY TotalDeathCount DESC
 
@@ -294,8 +294,8 @@ SELECT dea.location
     , MAX(CAST(vac.people_vaccinated AS BIGINT))/dea.population * 100 AS PercentVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
-  ON dea.location = vac.location
-  AND dea.date = vac.date
+    ON dea.location = vac.location
+    AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
 GROUP BY dea.location, dea.population
 ORDER BY PercentVaccinated DESC
@@ -314,8 +314,8 @@ SELECT dea.location
     , MAX(CAST(vac.people_vaccinated AS BIGINT))/dea.population * 100 AS PercentVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
-  ON dea.location = vac.location
-  AND dea.date = vac.date
+    ON dea.location = vac.location
+    AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
 GROUP BY dea.location, dea.population
 
@@ -329,8 +329,8 @@ SELECT dea.location
     , MAX(CAST(vac.people_fully_vaccinated AS BIGINT))/dea.population * 100 AS PercentFullyVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
-  ON dea.location = vac.location
-  AND dea.date = vac.date
+    ON dea.location = vac.location
+    AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
 GROUP BY dea.location, dea.population
 ORDER BY PercentFullyVaccinated DESC
@@ -349,8 +349,8 @@ SELECT dea.continent
         ) AS RollingPeopleVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
-  ON dea.location = vac.location
-  AND dea.date = vac.date
+    ON dea.location = vac.location
+    AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
 ORDER BY 2,3
 
@@ -371,8 +371,8 @@ SELECT dea.continent
 	) AS RollingPeopleVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
-  ON dea.location = vac.location
-  AND dea.date = vac.date
+    ON dea.location = vac.location
+    AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
 )
 
@@ -391,7 +391,7 @@ CREATE TABLE #PercentPopulationVaccinated
 Continent nvarchar(255)
 , Location nvarchar(255)
 , Date datetime
-,Population numeric 
+, Population numeric 
 , New_vaccinations numeric
 , RollingPeopleVaccinated numeric
 )
@@ -406,8 +406,8 @@ SELECT dea.continent
         PARTITION BY dea.Location ORDER BY dea.location, dea.date) AS RollingPeopleVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
-  ON dea.location = vac.location
-  AND dea.date = vac.date
+    ON dea.location = vac.location
+    AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
 ORDER BY 2, 3
 
@@ -430,8 +430,8 @@ SELECT dea.location
     , MAX(CONVERT(BIGINT, vac.people_fully_vaccinated))/dea.population * 100 AS PercentVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
-  ON dea.location = vac.location
-  AND dea.date = vac.date
+    ON dea.location = vac.location
+    AND dea.date = vac.date
 WHERE dea.location LIKE '%income%'
 GROUP BY dea.location, dea.population
 ORDER BY PercentVaccinated DESC
@@ -450,8 +450,8 @@ SELECT dea.location
 	) AS RollingPeopleVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
-  ON dea.location = vac.location
-  AND dea.date = vac.date
+    ON dea.location = vac.location
+    AND dea.date = vac.date
 WHERE dea.location LIKE '%income%'
 )
 
