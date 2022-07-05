@@ -86,9 +86,9 @@ GROUP BY location, population
 
 SELECT location
     , date
-	, total_cases
-	, total_deaths
-	, CONVERT(bigint, total_deaths) / total_cases * 100 AS PercentDeathPerInfected
+    , total_cases
+    , total_deaths
+    , CONVERT(bigint, total_deaths) / total_cases * 100 AS PercentDeathPerInfected
 FROM PortfolioProject..CovidDeaths
 WHERE location like '%states%' AND continent IS NOT NULL
 ORDER BY 1,2
@@ -99,9 +99,9 @@ ORDER BY 1,2
 
 SELECT location
     , date
-	, total_deaths
-	, population
-	, CONVERT(bigint, total_deaths)/population * 100 AS PercentPopulationDeath
+    , total_deaths
+    , population
+    , CONVERT(bigint, total_deaths)/population * 100 AS PercentPopulationDeath
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NOT NULL
 ORDER BY 1, 2 
@@ -112,7 +112,7 @@ ORDER BY 1, 2
 
 SELECT location
     , MAX(CAST(total_deaths AS bigint)) AS TotalDeathCount
-	, MAX(CAST(total_deaths AS bigint)/population)*100 AS PercentPopulationDeath
+    , MAX(CAST(total_deaths AS bigint)/population)*100 AS PercentPopulationDeath
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NOT NULL
 GROUP BY location, population
@@ -171,7 +171,7 @@ ORDER BY 3 DESC
 
 SELECT location
     , MAX(total_cases) AS TotalCases
-	, population, MAX(total_cases)/population * 100 AS PercentInfected
+    , population, MAX(total_cases)/population * 100 AS PercentInfected
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NULL 
 	AND location <> 'World'
@@ -190,8 +190,8 @@ ORDER BY PercentInfected DESC
 
 SELECT location
     , MAX(total_cases) AS TotalCases
-	, MAX(CONVERT(BIGINT, total_deaths)) AS TotalDeaths
-	, MAX(CONVERT(BIGINT, total_deaths))/MAX(total_cases) * 100 AS PercentDeathPerInfected
+    , MAX(CONVERT(BIGINT, total_deaths)) AS TotalDeaths
+    , MAX(CONVERT(BIGINT, total_deaths))/MAX(total_cases) * 100 AS PercentDeathPerInfected
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NULL 
 	AND location <> 'World'
@@ -210,8 +210,8 @@ ORDER BY PercentDeathPerInfected DESC
 
 SELECT location
     , population
-	, MAX(CAST(total_deaths AS bigint)) AS TotalDeathCount
-	, MAX(CAST(total_deaths AS bigint))/population * 100 AS PercentPopulationDeath
+    , MAX(CAST(total_deaths AS bigint)) AS TotalDeathCount
+    , MAX(CAST(total_deaths AS bigint))/population * 100 AS PercentPopulationDeath
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NULL 
 	AND location <> 'World'
@@ -234,8 +234,8 @@ ORDER BY TotalDeathCount DESC
 
 SELECT location
     , population
-	, MAX(total_cases) AS MaxTotalCases
-	, MAX(total_cases)/population * 100 AS PercentInfected
+    , MAX(total_cases) AS MaxTotalCases
+    , MAX(total_cases)/population * 100 AS PercentInfected
 FROM PortfolioProject..CovidDeaths
 WHERE location like '%income%'
 GROUP BY location, population
@@ -247,8 +247,8 @@ ORDER BY PercentInfected DESC
 
 SELECT location
     , MAX(total_cases) AS TotalCases
-	, MAX(CONVERT(BIGINT, total_deaths)) AS TotalDeaths
-	, MAX(CONVERT(BIGINT, total_deaths))/MAX(total_cases) * 100 AS PercentDeathPerInfected
+    , MAX(CONVERT(BIGINT, total_deaths)) AS TotalDeaths
+    , MAX(CONVERT(BIGINT, total_deaths))/MAX(total_cases) * 100 AS PercentDeathPerInfected
 FROM PortfolioProject..CovidDeaths
 WHERE location LIKE '%income%'
 GROUP BY location
@@ -260,8 +260,8 @@ ORDER BY PercentDeathPerInfected DESC
 
 SELECT location
     , population
-	, MAX(CONVERT(BIGINT, total_deaths)) AS TotalDeathCount
-	, MAX(CONVERT(BIGINT, total_deaths))/population * 100 AS PercentPopulationDeath
+    , MAX(CONVERT(BIGINT, total_deaths)) AS TotalDeathCount
+    , MAX(CONVERT(BIGINT, total_deaths))/population * 100 AS PercentPopulationDeath
 FROM PortfolioProject..CovidDeaths
 WHERE location LIKE '%income%'
 GROUP BY location, population
@@ -275,7 +275,7 @@ ORDER BY PercentPopulationDeath DESC
 
 SELECT SUM(new_cases) AS total_cases
     , SUM(CAST(new_deaths AS bigint)) AS total_deaths
-	, SUM(CAST(new_deaths AS bigint))/SUM(new_cases)*100 AS DeathPercentage
+    , SUM(CAST(new_deaths AS bigint))/SUM(new_cases)*100 AS DeathPercentage
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NOT NULL
 ORDER BY 1,2
@@ -290,8 +290,8 @@ ORDER BY 1,2
 
 SELECT dea.location
     , dea.population
-	, MAX(CAST(vac.people_vaccinated AS BIGINT)) AS PeopleVaccinated
-	, MAX(CAST(vac.people_vaccinated AS BIGINT))/dea.population * 100 AS PercentVaccinated
+    , MAX(CAST(vac.people_vaccinated AS BIGINT)) AS PeopleVaccinated
+    , MAX(CAST(vac.people_vaccinated AS BIGINT))/dea.population * 100 AS PercentVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
   ON dea.location = vac.location
@@ -310,8 +310,8 @@ GO
 CREATE VIEW MaxVaccinated AS 
 SELECT dea.location
     , dea.population
-	, MAX(CAST(vac.people_vaccinated AS BIGINT)) AS PeopleVaccinated
-	, MAX(CAST(vac.people_vaccinated AS BIGINT))/dea.population * 100 AS PercentVaccinated
+    , MAX(CAST(vac.people_vaccinated AS BIGINT)) AS PeopleVaccinated
+    , MAX(CAST(vac.people_vaccinated AS BIGINT))/dea.population * 100 AS PercentVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
   ON dea.location = vac.location
@@ -325,8 +325,8 @@ GROUP BY dea.location, dea.population
 
 SELECT dea.location
     , dea.population
-	, MAX(CAST(vac.people_fully_vaccinated AS BIGINT)) AS PeopleFullyVaccinated
-	, MAX(CAST(vac.people_fully_vaccinated AS BIGINT))/dea.population * 100 AS PercentFullyVaccinated
+    , MAX(CAST(vac.people_fully_vaccinated AS BIGINT)) AS PeopleFullyVaccinated
+    , MAX(CAST(vac.people_fully_vaccinated AS BIGINT))/dea.population * 100 AS PercentFullyVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
   ON dea.location = vac.location
@@ -341,12 +341,12 @@ ORDER BY PercentFullyVaccinated DESC
 
 SELECT dea.continent
     , dea.location
-	, dea.date
-	, dea.population
-	, vac.new_people_vaccinated_smoothed
+    , dea.date
+    , dea.population
+    , vac.new_people_vaccinated_smoothed
     , SUM(CONVERT(bigint, vac.new_people_vaccinated_smoothed)) OVER (
-	    PARTITION BY dea.Location ORDER BY dea.location, dea.date
-		) AS RollingPeopleVaccinated
+	PARTITION BY dea.Location ORDER BY dea.location, dea.date
+        ) AS RollingPeopleVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
   ON dea.location = vac.location
@@ -363,18 +363,19 @@ AS
 (
 SELECT dea.continent
     , dea.location
-	, dea.date
-	, dea.population
-	, vac.new_people_vaccinated_smoothed
+    , dea.date
+    , dea.population
+    , vac.new_people_vaccinated_smoothed
     , SUM(CONVERT(bigint, vac.new_people_vaccinated_smoothed)) OVER (
-	    PARTITION BY dea.Location ORDER BY dea.location, dea.date
-		) AS RollingPeopleVaccinated
+        PARTITION BY dea.Location ORDER BY dea.location, dea.date
+	) AS RollingPeopleVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
   ON dea.location = vac.location
   AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
 )
+
 SELECT *, (RollingPeopleVaccinated/Population)*100 AS RollingPercentVaccinated
 FROM PopsvsVac
 WHERE Continent IS NOT NULL 
@@ -398,11 +399,11 @@ Continent nvarchar(255)
 INSERT INTO #PercentPopulationVaccinated
 SELECT dea.continent
     , dea.location
-	, dea.date
-	, dea.population
-	, vac.new_people_vaccinated_smoothed
+    , dea.date
+    , dea.population
+    , vac.new_people_vaccinated_smoothed
     , SUM(CONVERT(bigint, vac.new_people_vaccinated_smoothed)) OVER (
-	    PARTITION BY dea.Location ORDER BY dea.location, dea.date) AS RollingPeopleVaccinated
+        PARTITION BY dea.Location ORDER BY dea.location, dea.date) AS RollingPeopleVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
   ON dea.location = vac.location
@@ -425,8 +426,8 @@ ORDER BY location, date
 
 SELECT dea.location
     , dea.population
-	, MAX(CONVERT(BIGINT, vac.people_fully_vaccinated)) AS PeopleVaccinated
-	, MAX(CONVERT(BIGINT, vac.people_fully_vaccinated))/dea.population * 100 AS PercentVaccinated
+    , MAX(CONVERT(BIGINT, vac.people_fully_vaccinated)) AS PeopleVaccinated
+    , MAX(CONVERT(BIGINT, vac.people_fully_vaccinated))/dea.population * 100 AS PercentVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
   ON dea.location = vac.location
@@ -443,10 +444,10 @@ WITH IncomePopsvsVacc AS
 (
 SELECT dea.location
     , dea.date
-	, dea.population
-	, SUM(CONVERT(BIGINT, vac.new_people_vaccinated_smoothed)) OVER (
-	    PARTITION BY dea.location ORDER BY dea.location, dea.date
-		) AS RollingPeopleVaccinated
+    , dea.population
+    , SUM(CONVERT(BIGINT, vac.new_people_vaccinated_smoothed)) OVER (
+        PARTITION BY dea.location ORDER BY dea.location, dea.date
+	) AS RollingPeopleVaccinated
 FROM PortfolioProject..CovidDeaths AS dea
 JOIN PortfolioProject..CovidVaccinations AS vac
   ON dea.location = vac.location
