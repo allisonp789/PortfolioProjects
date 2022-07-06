@@ -15,20 +15,21 @@ Animal Shelter Project: Data Analysis
 DROP TABLE IF EXISTS NoRepeatedIds
 CREATE TABLE NoRepeatedIds 
 (
-AnimalId nvarchar(255)
-, Name nvarchar(255)
-, AnimalType nvarchar(255)
-, SexUponIntake nvarchar(255)
-, row_num numeric
+AnimalId NVARCHAR(255)
+, Name NVARCHAR(255)
+, AnimalType NVARCHAR(255)
+, SexUponIntake NVARCHAR(255)
+, row_num NUMERIC
 );
 
 WITH RowNumCTE AS 
 (
-SELECT "Animal ID"
+SELECT 
+    "Animal ID"
     , Name
-	, "Animal Type"
-	, "Sex upon Intake"
-	, ROW_NUMBER() OVER(PARTITION BY "Animal ID" ORDER BY "DateTimeConverted") AS row_num
+    , "Animal Type"
+    , "Sex upon Intake"
+    , ROW_NUMBER() OVER(PARTITION BY "Animal ID" ORDER BY "DateTimeConverted") AS row_num
 FROM AnimalShelterProject..AnimalIntakes
 )
 
@@ -43,10 +44,11 @@ WHERE row_num = 1
 -- Finding Number of Animals that Entered Shelter Per Animal Type
 
 
-SELECT DISTINCT AnimalType
+SELECT 
+    DISTINCT AnimalType
     , COUNT(*) AS NumOfAnimals
-	, ROUND(CONVERT(FLOAT, COUNT(*))/CONVERT(FLOAT
-	    , (SELECT COUNT(*) FROM NoRepeatedIds)) * 100, 2) AS Percentage
+    , ROUND(CONVERT(FLOAT, COUNT(*))/CONVERT(FLOAT
+    , (SELECT COUNT(*) FROM NoRepeatedIds)) * 100, 2) AS Percentage
 FROM NoRepeatedIds
 GROUP BY AnimalType
 ORDER BY NumOfAnimals DESC
@@ -60,19 +62,21 @@ ORDER BY NumOfAnimals DESC
 
 WITH AnimalsPerSexCTE AS (
 SELECT *
-    , CASE WHEN SexUponIntake = 'Intact Male' THEN 'Male'
-    WHEN SexUponIntake = 'Neutered Male' THEN 'Male'
-	WHEN SexUponIntake = 'Intact Female' THEN 'Female'
-	WHEN SexUponIntake = 'Spayed Female' THEN 'Female'
-	ELSE 'Unknown'
-	END AS Sex
+    , CASE 
+        WHEN SexUponIntake = 'Intact Male' THEN 'Male'
+        WHEN SexUponIntake = 'Neutered Male' THEN 'Male'
+        WHEN SexUponIntake = 'Intact Female' THEN 'Female'
+        WHEN SexUponIntake = 'Spayed Female' THEN 'Female'
+        ELSE 'Unknown'
+    END AS Sex
 FROM NoRepeatedIds
 )
 
 SELECT DISTINCT Sex
     , COUNT (*) AS NumOfAnimals
-	, ROUND (CONVERT(FLOAT, COUNT(*)) / CONVERT(FLOAT
-	    , (SELECT COUNT(*) FROM NoRepeatedIds)) * 100, 2) AS Percentage
+    , ROUND (CONVERT(FLOAT, COUNT(*)) / CONVERT(FLOAT, (
+        SELECT COUNT(*) FROM NoRepeatedIds)) * 100
+	, 2) AS Percentage
 FROM AnimalsPerSexCTE
 GROUP BY Sex
 ORDER BY NumOfAnimals DESC
@@ -91,20 +95,22 @@ SexDetails nvarchar(255)
 WITH SpayNeuterIntakeCTE AS 
 (
 SELECT *
-    , CASE WHEN "Sex Upon Intake" = 'Intact Male' THEN 'Intact'
-    WHEN "Sex Upon Intake" = 'Neutered Male' THEN 'Neutered/Spayed'
+    , CASE 
+        WHEN "Sex Upon Intake" = 'Intact Male' THEN 'Intact'
+        WHEN "Sex Upon Intake" = 'Neutered Male' THEN 'Neutered/Spayed'
 	WHEN "Sex Upon Intake" = 'Intact Female' THEN 'Intact'
 	WHEN "Sex Upon Intake" = 'Spayed Female' THEN 'Neutered/Spayed'
 	ELSE 'Unknown'
-	END AS SexDetails
+    END AS SexDetails
 FROM AnimalShelterProject..AnimalIntakes
 )
 
 INSERT INTO SpayNeuterIntake
 SELECT DISTINCT SexDetails
     , COUNT (*) AS NumUponIntake
-	, ROUND (CONVERT(FLOAT, COUNT(*)) / CONVERT(FLOAT
-	    , (SELECT COUNT(*) FROM AnimalShelterProject..AnimalIntakes)) * 100, 2) AS PercentageUponIntake
+    , ROUND (CONVERT(FLOAT, COUNT(*)) / CONVERT(FLOAT, (
+        SELECT COUNT(*) FROM AnimalShelterProject..AnimalIntakes)) * 100
+	, 2) AS PercentageUponIntake
 FROM SpayNeuterIntakeCTE
 GROUP BY SexDetails
 
@@ -120,20 +126,22 @@ SexDetails nvarchar(255)
 
 WITH SpayNeuterOutcomesCTE AS (
 SELECT *
-    , CASE WHEN "Sex upon Outcome" = 'Intact Male' THEN 'Intact'
-    WHEN "Sex upon Outcome" = 'Neutered Male' THEN 'Neutered/Spayed'
+    , CASE 
+        WHEN "Sex upon Outcome" = 'Intact Male' THEN 'Intact'
+        WHEN "Sex upon Outcome" = 'Neutered Male' THEN 'Neutered/Spayed'
 	WHEN "Sex upon Outcome" = 'Intact Female' THEN 'Intact'
 	WHEN "Sex upon Outcome" = 'Spayed Female' THEN 'Neutered/Spayed'
 	ELSE 'Unknown'
-	END AS SexDetails
+    END AS SexDetails
 FROM AnimalShelterProject..AnimalOutcomes
 )
 
 INSERT INTO SpayNeuterOutcomes
 SELECT DISTINCT SexDetails
     , COUNT (*) AS NumUponOutcome
-	, ROUND (CONVERT(FLOAT, COUNT(*)) / CONVERT(FLOAT
-	    , (SELECT COUNT(*) FROM AnimalShelterProject..AnimalOutcomes)) * 100, 2) AS PercentageUponOutcome
+    , ROUND (CONVERT(FLOAT, COUNT(*)) / CONVERT(FLOAT, (
+        SELECT COUNT(*) FROM AnimalShelterProject..AnimalOutcomes)) * 100
+        , 2) AS PercentageUponOutcome
 FROM SpayNeuterOutcomesCTE
 GROUP BY SexDetails
 
@@ -180,22 +188,22 @@ AnimalId nvarchar(255)
 INSERT INTO AnimalIntakesAge
 SELECT a."Animal ID"
     , a.Name
-	, a.DateTimeConverted
-	, a.MonthYearConverted
-	, b.DOBConverted
-	, DATEDIFF(year, b.DOBConverted, a.MonthYearConverted) 
-	, a."Found Location"
-	, a."Intake Type"
-	, a."Intake Condition"
-	, a."Animal Type"
-	, a."Sex upon Intake"
-	, a."Age upon Intake"
-	, a.Breed
-	, a.Color
+    , a.DateTimeConverted
+    , a.MonthYearConverted
+    , b.DOBConverted
+    , DATEDIFF(year, b.DOBConverted, a.MonthYearConverted) 
+    , a."Found Location"
+    , a."Intake Type"
+    , a."Intake Condition"
+    , a."Animal Type"
+    , a."Sex upon Intake"
+    , a."Age upon Intake"
+    , a.Breed
+    , a.Color
 FROM AnimalShelterProject..AnimalIntakes AS a
 LEFT JOIN AnimalShelterProject..AnimalDateOfBirth AS b
-ON a."Animal ID" = b."Animal ID"
-AND a.Name = b.Name
+    ON a."Animal ID" = b."Animal ID"
+    AND a.Name = b.Name
 
 
 SELECT ROUND(AVG(AgeInYears), 2) AS AvgAgeUponIntake
@@ -214,9 +222,8 @@ FROM AnimalShelterProject..AnimalOutcomes
 
 SELECT "Outcome Type"
     , COUNT(*) AS Num
-	, CONVERT(FLOAT, COUNT(*)) / CONVERT(FLOAT 
-    , (SELECT COUNT(*) 
-	   FROM AnimalShelterProject..AnimalOutcomes)) * 100 AS Percentage
+    , CONVERT(FLOAT, COUNT(*)) / CONVERT(FLOAT , (
+        SELECT COUNT(*) FROM AnimalShelterProject..AnimalOutcomes)) * 100 AS Percentage
 FROM AnimalShelterProject..AnimalOutcomes
 GROUP BY "Outcome Type"
 ORDER BY Num DESC
@@ -229,10 +236,11 @@ ORDER BY Num DESC
 
 WITH RowNumCTE AS (
 SELECT *
-	, ROW_NUMBER() OVER (
-	PARTITION BY "Animal ID"
-				 , "Name"
-					ORDER BY "DateTimeConverted") AS row_num
+    , ROW_NUMBER() OVER (
+    PARTITION BY 
+        "Animal ID"
+        , "Name"
+    ORDER BY "DateTimeConverted") AS row_num
 FROM AnimalShelterProject..AnimalIntakes
 )
 
@@ -267,11 +275,14 @@ FROM RowNumCTE2
 
 WITH IntakeMonthCTE AS 
 (
-SELECT *, MONTH(DateTimeConverted) AS MonthNum, FORMAT(DateTimeConverted, 'MMMM') AS MonthName
+SELECT *
+    , MONTH(DateTimeConverted) AS MonthNum
+    , FORMAT(DateTimeConverted, 'MMMM') AS MonthName
 FROM AnimalShelterProject..AnimalIntakes
 )
 
-SELECT DISTINCT(MonthName), COUNT("Animal ID") AS NumOfIntakes
+SELECT DISTINCT(MonthName)
+    , COUNT("Animal ID") AS NumOfIntakes
 FROM IntakeMonthCTE
 GROUP BY MonthName
 ORDER BY NumOfIntakes DESC
@@ -337,8 +348,8 @@ GROUP BY Year
 
 SELECT a.Year
     , b.NumIntakes
-	, a.NumAdoptions
-	, CONVERT(FLOAT, a.NumAdoptions) / CONVERT(FLOAT, b.NumIntakes) * 100 AS AdoptionRate
+    , a.NumAdoptions
+    , CONVERT(FLOAT, a.NumAdoptions) / CONVERT(FLOAT, b.NumIntakes) * 100 AS AdoptionRate
 FROM AdoptionsPerYear AS a
 JOIN AnimalsPerYear AS b
 ON a.Year = b.Year
@@ -397,12 +408,13 @@ CREATE TABLE AnimalsAdoptedPerAgeGroup
 WITH AgeRangeCTE AS
 (
 SELECT *
-    , CASE WHEN AgeInYears <= 3 THEN '0-3 Years'
+    , CASE 
+        WHEN AgeInYears <= 3 THEN '0-3 Years'
 	WHEN AgeInYears <= 6 THEN '4-6 Years'
 	WHEN AgeInYears <= 10 THEN '7-10 Years'
 	WHEN AgeInYears <= 15 THEN '11-15 Years'
 	ELSE '16+ Years' 
-	END AS AgeRange
+    END AS AgeRange
 FROM AnimalShelterProject..AnimalOutcomes
 WHERE "Outcome Type" = 'Adoption'
 )
@@ -424,12 +436,13 @@ CREATE TABLE AnimalsPerAgeGroup
 WITH AgeRangeCTE AS
 (
 SELECT *
-    , CASE WHEN AgeInYears <= 3 THEN '0-3 Years'
+    , CASE 
+        WHEN AgeInYears <= 3 THEN '0-3 Years'
 	WHEN AgeInYears <= 6 THEN '4-6 Years'
 	WHEN AgeInYears <= 10 THEN '7-10 Years'
 	WHEN AgeInYears <= 15 THEN '11-15 Years'
 	ELSE '16+ Years' 
-	END AS AgeRange
+    END AS AgeRange
 FROM AnimalShelterProject..AnimalOutcomes
 )
 
@@ -441,11 +454,11 @@ GROUP BY AgeRange
 
 SELECT a.AgeRange
     , a.NumAdopted
-	, b.NumOfAnimals
-	, CONVERT(FLOAT, NumAdopted) / CONVERT(FLOAT, NumOfAnimals) * 100 AS PercentageAdopted 
+    , b.NumOfAnimals
+    , CONVERT(FLOAT, NumAdopted) / CONVERT(FLOAT, NumOfAnimals) * 100 AS PercentageAdopted 
 FROM AnimalsAdoptedPerAgeGroup AS a
 JOIN AnimalsPerAgeGroup AS b
-ON a.AgeRange = b.AgeRange
+    ON a.AgeRange = b.AgeRange
 ORDER BY NumAdopted DESC
 
 
