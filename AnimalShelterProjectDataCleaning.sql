@@ -237,6 +237,82 @@ WHERE "Sex upon Outcome" = 'NULL'
 
 --------------------------------------------------------------------------------------------------------------------------------
 
+-- Trimming Text Columns
+
+
+ALTER TABLE AnimalShelterProject..AnimalIntakes
+ADD IntakeTypeTrimmed NVARCHAR(255);
+
+UPDATE AnimalShelterProject..AnimalIntakes
+SET IntakeTypeTrimmed = TRIM(REPLACE("Intake Type", '  ', ' '))
+
+
+
+ALTER TABLE AnimalShelterProject..AnimalIntakes
+ADD IntakeConditionTrimmed NVARCHAR(255);
+
+UPDATE AnimalShelterProject..AnimalIntakes
+SET IntakeConditionTrimmed = TRIM(REPLACE("Intake Condition", '  ', ' '))
+
+
+
+ALTER TABLE AnimalShelterProject..AnimalIntakes
+ADD AnimalTypeTrimmed NVARCHAR(255);
+
+UPDATE AnimalShelterProject..AnimalIntakes
+SET AnimalTypeTrimmed = TRIM(REPLACE("Animal Type", '  ', ' '))
+
+
+
+ALTER TABLE AnimalShelterProject..AnimalIntakes
+ADD SexUponIntakeTrimmed NVARCHAR(255);
+
+UPDATE AnimalShelterProject..AnimalIntakes
+SET SexUponIntakeTrimmed = TRIM(REPLACE("Sex upon Intake", '  ', ' '))
+
+
+
+ALTER TABLE AnimalShelterProject..AnimalIntakes
+ADD SexUponIntakeTrimmed NVARCHAR(255);
+
+UPDATE AnimalShelterProject..AnimalIntakes
+SET SexUponIntakeTrimmed = TRIM(REPLACE("Sex upon Intake", '  ', ' '))
+
+
+
+ALTER TABLE AnimalShelterProject..AnimalOutcomes
+ADD OutcomeTypeTrimmed NVARCHAR(255);
+
+UPDATE AnimalShelterProject..AnimalOutcomes
+SET OutcomeTypeTrimmed = TRIM(REPLACE("Outcome Type", '  ', ' '))
+
+
+
+ALTER TABLE AnimalShelterProject..AnimalOutcomes
+ADD OutcomeSubtypeTrimmed NVARCHAR(255);
+
+UPDATE AnimalShelterProject..AnimalOutcomes
+SET OutcomeSubtypeTrimmed = TRIM(REPLACE("Outcome Subtype", '  ', ' '))
+
+
+
+ALTER TABLE AnimalShelterProject..AnimalOutcomes
+ADD AnimalTypeTrimmed NVARCHAR(255);
+
+UPDATE AnimalShelterProject..AnimalOutcomes
+SET AnimalTypeTrimmed = TRIM(REPLACE("Animal Type", '  ', ' '))
+
+
+
+ALTER TABLE AnimalShelterProject..AnimalOutcomes
+ADD SexUponOutcomeTrimmed NVARCHAR(255);
+
+UPDATE AnimalShelterProject..AnimalOutcomes
+SET SexUponOutcomeTrimmed = TRIM(REPLACE("Sex upon Outcome", '  ', ' '))
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+
 -- Removing Duplicate Rows
 
 
