@@ -174,13 +174,13 @@ SELECT location
     , population, MAX(total_cases)/population * 100 AS PercentInfected
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NULL 
-    AND location <> 'World'
-    AND location <> 'High Income' 
-    AND location <> 'Upper middle income'
-    AND location <> 'Lower middle income'
-    AND location <> 'European Union'
-    AND location <> 'Low income'
-    AND location <> 'International'
+    AND location NOT IN ('World'
+		, 'High Income' 
+		, 'Upper middle income'
+		, 'Lower middle income'
+		, 'European Union'
+		, 'Low income'
+		,'International')
 GROUP BY location, population
 ORDER BY PercentInfected DESC
 
@@ -194,13 +194,13 @@ SELECT location
     , MAX(CONVERT(BIGINT, total_deaths))/MAX(total_cases) * 100 AS PercentDeathPerInfected
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NULL 
-    AND location <> 'World'
-    AND location <> 'High Income' 
-    AND location <> 'Upper middle income'
-    AND location <> 'Lower middle income'
-    AND location <> 'European Union'
-    AND location <> 'Low income'
-    AND location <> 'International'
+    AND location NOT IN ('World'
+		, 'High Income' 
+		, 'Upper middle income'
+		, 'Lower middle income'
+		, 'European Union'
+		, 'Low income'
+		,'International')
 GROUP BY location
 ORDER BY PercentDeathPerInfected DESC
 
@@ -214,13 +214,13 @@ SELECT location
     , MAX(CAST(total_deaths AS bigint))/population * 100 AS PercentPopulationDeath
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NULL 
-    AND location <> 'World'
-    AND location <> 'High Income' 
-    AND location <> 'Upper middle income'
-    AND location <> 'Lower middle income'
-    AND location <> 'European Union'
-    AND location <> 'Low income'
-    AND location <> 'International'
+    AND location NOT IN ('World'
+		, 'High Income' 
+		, 'Upper middle income'
+		, 'Lower middle income'
+		, 'European Union'
+		, 'Low income'
+		,'International')
 GROUP BY location, population
 ORDER BY TotalDeathCount DESC
 
